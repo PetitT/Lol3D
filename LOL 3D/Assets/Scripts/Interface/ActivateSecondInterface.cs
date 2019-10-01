@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class ActivateSecondInterface : MonoBehaviour
 {
@@ -9,7 +10,14 @@ public class ActivateSecondInterface : MonoBehaviour
 
     private void Start()
     {
-        moves = FindObjectsOfType<MonoBehaviour>().OfType<IMove>().ToList();
+        GameObject[] rootObjects = SceneManager.GetActiveScene().GetRootGameObjects();
+
+        foreach (var root in rootObjects)
+        {
+            moves.AddRange(root.GetComponentsInChildren<IMove>(true));
+        }
+
+       // moves = FindObjectsOfType<MonoBehaviour>().OfType<IMove>().ToList();
     }
 
     private void Update()
